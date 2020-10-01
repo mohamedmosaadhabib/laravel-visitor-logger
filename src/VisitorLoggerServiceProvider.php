@@ -2,14 +2,15 @@
 
 namespace Baas\LaravelVisitorLogger;
 
+use Event;
 use Illuminate\Routing\Router;
-use Illuminate\Support\ServiceProvider;
 use Baas\LaravelVisitorLogger\App\Http\Middleware\LogActivity;
+use Illuminate\Support\ServiceProvider;
 
 
-class ServiceProvider extends ServiceProvider
+class VisitorLoggerServiceProvider extends ServiceProvider
 {
-    
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -55,6 +56,14 @@ class ServiceProvider extends ServiceProvider
     ];
 
     /**
+     * load routes
+     */
+    public static function routes()
+    {
+        require __DIR__ . '/routes/web.php';
+    }
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -62,7 +71,7 @@ class ServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         $router->middlewareGroup('activity', [LogActivity::class]);
-        $this->loadTranslationsFrom(__DIR__.'/resources/lang/', 'LaravelVisitorLogger');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang/', 'LaravelVisitorLogger');
     }
 
     /**
@@ -72,16 +81,33 @@ class ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        $this->loadViewsFrom(__DIR__.'/resources/views/', 'LaravelVisitorLogger');
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+//        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadViewsFrom(__DIR__ . '/resources/views/', 'LaravelVisitorLogger');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         if (file_exists(config_path('laravel-visitor-logger.php'))) {
             $this->mergeConfigFrom(config_path('laravel-visitor-logger.php'), 'LaravelVisitorLogger');
         } else {
-            $this->mergeConfigFrom(__DIR__.'/config/laravel-visitor-logger.php', 'LaravelVisitorLogger');
+            $this->mergeConfigFrom(__DIR__ . '/config/laravel-visitor-logger.php', 'LaravelVisitorLogger');
         }
         $this->registerEventListeners();
         $this->publishFiles();
+    }
+
+    /**
+     * Register the list of listeners and events.
+     *
+     * @return void
+     */
+    private function registerEventListeners()
+    {
+        $listeners = $this->getListeners();
+        foreach ($listeners as $listenerKey => $listenerValues) {
+            foreach ($listenerValues as $listenerValue) {
+                Event::listen($listenerKey,
+                    $listenerValue
+                );
+            }
+        }
     }
 
     /**
@@ -95,23 +121,6 @@ class ServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the list of listeners and events.
-     *
-     * @return void
-     */
-    private function registerEventListeners()
-    {
-        $listeners = $this->getListeners();
-        foreach ($listeners as $listenerKey => $listenerValues) {
-            foreach ($listenerValues as $listenerValue) {
-                \Event::listen($listenerKey,
-                    $listenerValue
-                );
-            }
-        }
-    }
-
-    /**
      * Publish files for Laravel Logger.
      *
      * @return void
@@ -121,15 +130,19 @@ class ServiceProvider extends ServiceProvider
         $publishTag = 'laravelvisitorlogger';
 
         $this->publishes([
-            __DIR__.'/config/laravel-visitor-logger.php' => base_path('config/laravel-visitor-logger.php'),
+            __DIR__ . '/config/laravel-visitor-logger.php' => base_path('config/laravel-visitor-logger.php'),
         ], $publishTag);
 
         $this->publishes([
-            __DIR__.'/resources/views' => base_path('resources/views/vendor/'.$publishTag),
+            __DIR__ . '/resources/views' => resource_path('views/vendor/' . $publishTag),
         ], $publishTag);
 
         $this->publishes([
-            __DIR__.'/resources/lang' => base_path('resources/lang/vendor/'.$publishTag),
+            __DIR__ . '/resources/lang' => base_path('resources/lang/vendor/' . $publishTag),
+        ], $publishTag);
+
+        $this->publishes([
+            __DIR__ . '/database/migrations' => database_path('migrations'),
         ], $publishTag);
     }
 }

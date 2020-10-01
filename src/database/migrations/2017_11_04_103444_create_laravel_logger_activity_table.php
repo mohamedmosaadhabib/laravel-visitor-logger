@@ -21,10 +21,10 @@ class CreateLaravelVisitorLoggerActivityTable extends Migration
 
         if (!$tableCheck) {
             Schema::connection($connection)->create($table, function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->longText('description');
                 $table->string('userType');
-                $table->integer('userId')->nullable();
+                $table->integer('user_id')->nullable();
                 $table->longText('route')->nullable();
                 $table->ipAddress('ipAddress')->nullable();
                 $table->text('userAgent')->nullable();

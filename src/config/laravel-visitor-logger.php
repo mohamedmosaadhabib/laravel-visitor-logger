@@ -48,7 +48,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'defaultUserModel' => env('LARAVEL_VISITOR_LOGGER_USER_MODEL', 'App\User'),
+    'defaultUserModel' => env('LARAVEL_VISITOR_LOGGER_USER_MODEL', 'App\Models\User'),
 
     /*
     |--------------------------------------------------------------------------

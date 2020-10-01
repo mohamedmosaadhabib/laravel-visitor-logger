@@ -2,9 +2,9 @@
 
 namespace Baas\LaravelVisitorLogger\App\Http\Middleware;
 
+use Baas\LaravelVisitorLogger\App\Http\Traits\VisitorActivityLogger;
 use Closure;
 use Illuminate\Http\Request;
-use Baas\LaravelVisitorLogger\App\Http\Traits\ActivityLogger;
 
 class LogActivity
 {
@@ -13,9 +13,8 @@ class LogActivity
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
-     * @param \Closure $next
-     *
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next, $description = null)
@@ -30,8 +29,7 @@ class LogActivity
     /**
      * Determine if the request has a URI that should log.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param Request $request
      * @return bool
      */
     protected function shouldLog($request)

@@ -59,7 +59,7 @@ trait VisitorActivityLogger
         $data = [
             'description'   => $description,
             'userType'      => $userType,
-            'userId'        => $userId,
+            'user_id'        => $userId,
             'route'         => \Request::fullUrl(),
             'ipAddress'     => \Request::ip(),
             'userAgent'     => \Request::header('user-agent'),
@@ -92,7 +92,7 @@ trait VisitorActivityLogger
         VisitorActivity::create([
             'description'   => $data['description'],
             'userType'      => $data['userType'],
-            'userId'        => $data['userId'],
+            'user_id'        => $data['user_id'],
             'route'         => $data['route'],
             'ipAddress'     => $data['ipAddress'],
             'userAgent'     => $data['userAgent'],

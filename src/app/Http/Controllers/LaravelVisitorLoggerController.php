@@ -103,12 +103,12 @@ class LaravelVisitorLoggerController extends BaseController
         $timePassed = $eventTime->diffForHumans();
 
         if (config('LaravelVisitorLogger.loggerPaginationEnabled')) {
-            $userActivities = VisitorActivity::where('userId', $visitorActivity->userId)
+            $userActivities = VisitorActivity::where('user_id', $visitorActivity->userId)
                            ->orderBy('created_at', 'desc')
                            ->paginate(config('LaravelVisitorLogger.loggerPaginationPerPage'));
             $totalUserActivities = $userActivities->total();
         } else {
-            $userActivities = VisitorActivity::where('userId', $visitorActivity->userId)
+            $userActivities = VisitorActivity::where('user_id', $visitorActivity->userId)
                            ->orderBy('created_at', 'desc')
                            ->get();
             $totalUserActivities = $userActivities->count();

@@ -1,29 +1,35 @@
 {
-    "name": "Baas/laravel-visitor-logger",
+    "name": "habib/laravel-visitor-logger",
     "description": "Laravel Visitor Logger Package",
     "keywords": [
-            "Laravel visitor activity",
-            "Laravel visitor logger",
-            "Laravel visitor activity log",
-            "Laravel logger",
-            "Laravel log"
-        ],
+        "Laravel visitor activity",
+        "Laravel visitor logger",
+        "Laravel visitor activity log",
+        "Laravel logger",
+        "Laravel log"
+    ],
     "license": "MIT",
     "type": "package",
     "authors": [
         {
             "name": "Roland*",
             "email": "roland@brains-as-a-service.nl"
+        },
+        {
+            "name": "Mohamed Habib",
+            "email": "mohamedmosaadhabib@gmail.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0",
-        "jaybizzle/laravel-crawler-detect": "1.*"
+        "jaybizzle/laravel-crawler-detect": "^1",
+        "laravelcollective/html": "^6"
     },
     "autoload": {
         "classmap": {
-            "Baas\\LaravelVisitorLogger\\": "src/"
+            "Baas\\LaravelVisitorLogger\\": "src/",
+            "Baas\\LaravelVisitorLogger\\App\\": "src/app"
         },
         "files": [
             "src/app/Logic/helpers.php"
@@ -32,16 +38,14 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Baas\\LaravelVisitorLogger\\ServiceProvider"
+                "Baas\\LaravelVisitorLogger\\VisitorLoggerServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-master": "2.4-dev"
         }
     },
     "config": {
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.4-dev"
-        }
-    }    
+    }
 }

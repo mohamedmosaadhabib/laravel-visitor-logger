@@ -82,7 +82,7 @@ return [
                 'ip'            => 'Ip Address',
                 'description'   => 'Description',
                 'userType'      => 'User Type',
-                'userId'        => 'User Id',
+                'user_id'        => 'User Id',
                 'route'         => 'Route',
                 'agent'         => 'User Agent',
                 'locale'        => 'Locale',
